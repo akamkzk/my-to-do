@@ -3,6 +3,6 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/My-To-Do/', // GitHub Pages 仓库名路径
+  base: '/my-to-do/', // GitHub Pages 仓库名（全小写）
   plugins: [react()],
 })
