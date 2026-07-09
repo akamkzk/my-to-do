@@ -4,18 +4,25 @@ import { useApp } from '../contexts/AppContext';
 
 const SearchBar: React.FC = () => {
   const { searchQuery, filterCategory, filterPriority, setSearchQuery, setFilterCategory, setFilterPriority, t } = useApp();
+  const isComposing = React.useRef(false);
 
-  const debouncedFn = React.useRef<((q: string) => void) | null>(null);
-  if (!debouncedFn.current) {
-    let timer: ReturnType<typeof setTimeout> | null = null;
-    debouncedFn.current = (q: string) => {
-      if (timer) clearTimeout(timer);
-      timer = setTimeout(() => setSearchQuery(q), 300);
-    };
-  }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Always update searchQuery to keep the controlled input responsive.
+    // During IME composition, intermediate values (pinyin, kana, etc.)
+    // are written to searchQuery but will be overwritten by the final
+    // composed text in handleCompositionEnd, so partial IME state never
+    // leaks into the filtered results.
+    setSearchQuery(e.target.value);
+  };
 
-  const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (debouncedFn.current) debouncedFn.current(e.target.value);
+  const handleCompositionStart = () => {
+    isComposing.current = true;
+  };
+
+  const handleCompositionEnd = (e: React.SyntheticEvent<HTMLInputElement, Event>) => {
+    isComposing.current = false;
+    // Overwrite with the browser's settled composed value.
+    setSearchQuery((e.currentTarget as HTMLInputElement).value);
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -34,7 +41,9 @@ const SearchBar: React.FC = () => {
         className="form-input search-input"
         placeholder={t('searchPlaceholder')}
         value={searchQuery}
-        onChange={handleSearchInput}
+        onChange={handleChange}
+        onCompositionStart={handleCompositionStart}
+        onCompositionEnd={handleCompositionEnd}
       />
       <select id="filterCategory" className="filter-select" value={filterCategory} onChange={handleCategoryChange}>
         <option value="">{t('filterAllCategories')}</option>

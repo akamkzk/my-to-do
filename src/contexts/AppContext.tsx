@@ -1,8 +1,46 @@
-import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import React, { createContext, useContext, useCallback, useEffect, useReducer } from 'react';
 import type { Todo, TabKey, Language } from '../types';
 import { store } from '../utils/store';
 import { sortTodos } from '../utils/model';
 import { loadSavedLang, setCurrentLang, t } from '../utils/i18n';
+
+interface AppState {
+  todos: Todo[];
+  activeTab: TabKey;
+  searchQuery: string;
+  filterCategory: string;
+  filterPriority: string;
+  language: Language;
+}
+
+type Action =
+  | { type: 'SET_TAB'; tab: TabKey }
+  | { type: 'SET_SEARCH'; query: string }
+  | { type: 'SET_CATEGORY'; category: string }
+  | { type: 'SET_PRIORITY'; priority: string }
+  | { type: 'SET_LANGUAGE'; lang: Language }
+  | { type: 'SYNC_TODOS'; todos: Todo[] };
+
+const initialState: AppState = {
+  todos: [],
+  activeTab: 'all',
+  searchQuery: '',
+  filterCategory: '',
+  filterPriority: '',
+  language: loadSavedLang(),
+};
+
+function appReducer(state: AppState, action: Action): AppState {
+  switch (action.type) {
+    case 'SET_TAB': return { ...state, activeTab: action.tab };
+    case 'SET_SEARCH': return { ...state, searchQuery: action.query };
+    case 'SET_CATEGORY': return { ...state, filterCategory: action.category };
+    case 'SET_PRIORITY': return { ...state, filterPriority: action.priority };
+    case 'SET_LANGUAGE': return { ...state, language: action.lang };
+    case 'SYNC_TODOS': return { ...state, todos: action.todos };
+    default: return state;
+  }
+}
 
 interface AppContextValue {
   todos: Todo[];
@@ -29,59 +67,53 @@ interface AppContextValue {
 const AppContext = createContext<AppContextValue | undefined>(undefined);
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
-  const [todos, setTodos] = useState<Todo[]>([]);
-  const [activeTab, setActiveTab] = useState<TabKey>('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterCategory, setFilterCategory] = useState('');
-  const [filterPriority, setFilterPriority] = useState('');
-  const [language, setLanguageState] = useState<Language>(() => loadSavedLang());
+  const [state, dispatch] = useReducer(appReducer, initialState);
 
   // Load initial data
   useEffect(() => {
-    setTodos(store.getAll());
+    dispatch({ type: 'SYNC_TODOS', todos: store.getAll() });
   }, []);
 
   // Subscribe to store changes
   useEffect(() => {
     return store.subscribe(() => {
-      setTodos(store.getAll());
+      dispatch({ type: 'SYNC_TODOS', todos: store.getAll() });
     });
   }, []);
 
-  // Computed filtered todos
+  // Computed filtered todos — memoized independently from context value
   const filteredTodos = React.useMemo(() => {
-    let result = [...todos];
+    let result = [...state.todos];
 
     // Tab filter
-    if (activeTab === 'pending') {
+    if (state.activeTab === 'pending') {
       result = result.filter(t => !t.completed);
-    } else if (activeTab === 'completed') {
+    } else if (state.activeTab === 'completed') {
       result = result.filter(t => t.completed);
     }
-    // 'all' and 'stats' show everything
 
     // Category filter
-    if (filterCategory) {
-      result = result.filter(t => t.category === filterCategory);
+    if (state.filterCategory) {
+      result = result.filter(t => t.category === state.filterCategory);
     }
 
     // Priority filter
-    if (filterPriority) {
-      result = result.filter(t => t.priority === filterPriority);
+    if (state.filterPriority) {
+      result = result.filter(t => t.priority === state.filterPriority);
     }
 
     // Search query
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
+    if (state.searchQuery) {
+      const q = state.searchQuery.toLowerCase();
       result = result.filter(t => t.text.toLowerCase().includes(q));
     }
 
     return sortTodos(result);
-  }, [todos, activeTab, filterCategory, filterPriority, searchQuery]);
+  }, [state.todos, state.activeTab, state.filterCategory, state.filterPriority, state.searchQuery]);
 
   const setLanguage = useCallback((lang: Language) => {
     setCurrentLang(lang);
-    setLanguageState(lang);
+    dispatch({ type: 'SET_LANGUAGE', lang });
     document.documentElement.lang = lang === 'zh-CN' ? 'zh' : lang;
   }, []);
 
@@ -110,17 +142,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const value = React.useMemo<AppContextValue>(() => ({
-    todos,
-    activeTab,
-    searchQuery,
-    filterCategory,
-    filterPriority,
-    language,
+    ...state,
     filteredTodos,
-    setActiveTab,
-    setSearchQuery,
-    setFilterCategory,
-    setFilterPriority,
+    setActiveTab: (tab: TabKey) => dispatch({ type: 'SET_TAB', tab }),
+    setSearchQuery: (q: string) => dispatch({ type: 'SET_SEARCH', query: q }),
+    setFilterCategory: (cat: string) => dispatch({ type: 'SET_CATEGORY', category: cat }),
+    setFilterPriority: (prio: string) => dispatch({ type: 'SET_PRIORITY', priority: prio }),
     setLanguage,
     addTodo,
     removeTodo,
@@ -129,7 +156,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     clearCompleted,
     getStats,
     t,
-  }), [todos, activeTab, searchQuery, filterCategory, filterPriority, language, filteredTodos, setLanguage, addTodo, removeTodo, toggleTodo, updateTodo, clearCompleted, getStats]);
+  }), [state, filteredTodos, setLanguage, addTodo, removeTodo, toggleTodo, updateTodo, clearCompleted, getStats]);
 
   return (
     <AppContext.Provider value={value}>

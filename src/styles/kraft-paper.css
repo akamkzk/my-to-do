@@ -10,6 +10,7 @@
     radial-gradient(ellipse at 50% 80%, rgba(120, 90, 50, 0.05) 0%, transparent 50%),
     linear-gradient(135deg, #d4b483 0%, #e8d5b7 25%, #d4b483 50%, #c9a97c 75%, #d4b483 100%);
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
 /* === 牛皮纸卡片 === */

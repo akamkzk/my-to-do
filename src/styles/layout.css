@@ -1,44 +1,48 @@
 /* ============================================
-   手帐待办 — 页面布局
+   手帐待办 — 页面布局（流体响应式）
    ============================================ */
 
+/* === 根容器 === */
 .app-container {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: var(--space-lg);
+  width: min(100% - 2rem, 1400px);
+  margin-inline: auto;
+  padding: clamp(1rem, 3vw, 2.5rem);
   min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* === 头部 === */
 .journal-header {
   text-align: center;
-  margin-bottom: var(--space-lg);
-  padding: var(--space-lg) 0;
+  margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
+  padding: clamp(1rem, 2.5vw, 2rem) 0;
 }
 
 .header-top {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-md);
+  gap: clamp(0.5rem, 1.5vw, 1rem);
   margin-bottom: var(--space-sm);
+  flex-wrap: wrap;
 }
 
 .date-stamp {
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 1.5vw, 0.85rem);
 }
 
 /* === 语言选择器 === */
 .lang-wrapper {
   display: flex;
   align-items: center;
-  margin-left: var(--space-md);
 }
 
 .lang-select {
   font-family: var(--font-main);
-  font-size: 0.8rem;
-  padding: 2px 6px;
+  font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+  padding: clamp(1px, 0.5vw, 3px) clamp(4px, 1vw, 8px);
   border: 2px solid var(--kraft-dark);
   border-radius: 6px;
   background: var(--kraft-light);
@@ -55,16 +59,16 @@
 /* === 标签栏 === */
 .tab-bar {
   display: flex;
-  gap: var(--space-xs);
+  gap: clamp(0.25rem, 0.8vw, 0.5rem);
   justify-content: center;
-  margin-bottom: var(--space-lg);
+  margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
   flex-wrap: wrap;
 }
 
 .tab {
   font-family: var(--font-main);
-  font-size: 0.9rem;
-  padding: var(--space-sm) var(--space-md);
+  font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+  padding: clamp(0.35rem, 0.8vw, 0.5rem) clamp(0.6rem, 1.5vw, 1rem);
   border: 2px solid var(--kraft-dark);
   border-radius: var(--radius-blob);
   background: transparent;
@@ -73,6 +77,7 @@
   transition: all var(--transition-fast);
   transform: rotate(var(--rot, 0deg));
   position: relative;
+  white-space: nowrap;
 }
 
 .tab:hover {
@@ -91,11 +96,11 @@
   position: absolute;
   top: -6px;
   right: -6px;
-  font-size: 0.65rem;
+  font-size: clamp(0.55rem, 1vw, 0.65rem);
   background: var(--sticker-high);
   color: white;
-  width: 18px;
-  height: 18px;
+  width: clamp(14px, 2vw, 18px);
+  height: clamp(14px, 2vw, 18px);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -106,6 +111,7 @@
 /* === 主内容区 === */
 .main-content {
   position: relative;
+  flex: 1;
 }
 
 .content-section {
@@ -119,8 +125,8 @@
 
 /* === 纸张卡片 === */
 .paper-card {
-  padding: var(--space-lg);
-  margin-bottom: var(--space-lg);
+  padding: clamp(0.75rem, 2vw, 1.5rem);
+  margin-bottom: clamp(0.75rem, 2vw, 1.5rem);
 }
 
 /* === 待办列表 === */
@@ -132,8 +138,8 @@
 .todo-item {
   display: flex;
   align-items: flex-start;
-  gap: var(--space-sm);
-  padding: var(--space-md);
+  gap: clamp(0.35rem, 1vw, 0.5rem);
+  padding: clamp(0.5rem, 1.5vw, 0.75rem);
   margin-bottom: var(--space-sm);
   border-radius: var(--radius-note);
   transition: all var(--transition-fast);
@@ -156,14 +162,14 @@
 
 .todo-meta {
   display: flex;
-  gap: var(--space-sm);
+  gap: clamp(0.25rem, 0.8vw, 0.5rem);
   align-items: center;
   flex-wrap: wrap;
   margin-top: var(--space-xs);
 }
 
 .todo-date {
-  font-size: 0.75rem;
+  font-size: clamp(0.7rem, 1.2vw, 0.75rem);
   color: var(--kraft-text-light);
   opacity: 0.7;
 }
@@ -182,36 +188,63 @@
 
 /* === 统计面板 === */
 .stats-panel {
-  padding: var(--space-lg);
+  padding: clamp(0.75rem, 2vw, 1.5rem);
 }
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-md);
-  margin-bottom: var(--space-lg);
+  grid-template-columns: repeat(auto-fit, minmax(clamp(80px, 18vw, 140px), 1fr));
+  gap: clamp(0.5rem, 1.5vw, 1rem);
+  margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.stat-card {
+  text-align: center;
+  padding: clamp(0.75rem, 2vw, 1.25rem);
+  border: 2px dashed var(--kraft-dark);
+  border-radius: var(--radius-blob);
+  background: rgba(255, 255, 255, 0.2);
+  transition: transform var(--transition-fast);
+}
+
+.stat-card:hover {
+  transform: rotate(0.5deg) scale(1.02);
+}
+
+.stat-number {
+  display: block;
+  font-size: clamp(1.4rem, 3.5vw, 2.5rem);
+  font-weight: 700;
+  color: var(--kraft-text);
+  line-height: 1;
+  margin-bottom: var(--space-xs);
+}
+
+.stat-label {
+  font-size: clamp(0.75rem, 1.5vw, 0.85rem);
+  color: var(--kraft-text-light);
 }
 
 .stats-detail {
-  margin-top: var(--space-lg);
+  margin-top: clamp(1rem, 2.5vw, 1.5rem);
 }
 
 .stats-category-row {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm) 0;
+  gap: clamp(0.35rem, 1vw, 0.5rem);
+  padding: clamp(0.3rem, 0.8vw, 0.5rem) 0;
   border-bottom: 1px dashed rgba(139, 109, 70, 0.2);
 }
 
 .stats-category-label {
   flex: 1;
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 1.5vw, 0.9rem);
 }
 
 .stats-category-bar {
   flex: 2;
-  height: 8px;
+  height: clamp(6px, 1vw, 8px);
   background: rgba(139, 109, 70, 0.1);
   border-radius: 4px;
   overflow: hidden;
@@ -224,10 +257,49 @@
 }
 
 .stats-category-count {
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 1.5vw, 0.85rem);
   color: var(--kraft-text-light);
-  min-width: 30px;
+  min-width: clamp(25px, 5vw, 30px);
   text-align: right;
+}
+
+/* === 进度环 === */
+.progress-ring-container {
+  width: clamp(80px, 15vw, 120px);
+  height: clamp(80px, 15vw, 120px);
+  margin: clamp(0.4rem, 1.5vw, 0.75rem) auto;
+  position: relative;
+}
+
+.progress-ring {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.progress-ring-bg {
+  fill: none;
+  stroke: rgba(139, 109, 70, 0.15);
+  stroke-width: 8;
+}
+
+.progress-ring-fill {
+  fill: none;
+  stroke: var(--kraft-dark);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s ease;
+}
+
+.progress-ring-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  font-weight: 700;
+  color: var(--kraft-text);
 }
 
 /* === 时钟小部件 === */
@@ -235,13 +307,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-md);
+  gap: clamp(0.5rem, 2vw, 1rem);
   margin-top: var(--space-sm);
 }
 
 .analog-clock {
-  width: 48px;
-  height: 48px;
+  width: clamp(36px, 6vw, 56px);
+  height: clamp(36px, 6vw, 56px);
   border: 2px dashed var(--kraft-dark);
   border-radius: 50%;
   position: relative;
@@ -249,8 +321,8 @@
 
 .clock-center {
   position: absolute;
-  width: 4px;
-  height: 4px;
+  width: clamp(3px, 0.6vw, 4px);
+  height: clamp(3px, 0.6vw, 4px);
   background: var(--kraft-dark);
   border-radius: 50%;
   top: 50%;
@@ -268,95 +340,30 @@
 }
 
 .clock-hand.hour {
-  width: 3px;
-  height: 12px;
+  width: clamp(2px, 0.4vw, 3px);
+  height: clamp(9px, 1.8vw, 15px);
   background: var(--kraft-text);
-  margin-left: -1.5px;
+  margin-left: calc(clamp(2px, 0.4vw, 3px) / -2);
 }
 
 .clock-hand.minute {
-  width: 2px;
-  height: 16px;
+  width: clamp(1.5px, 0.3vw, 2px);
+  height: clamp(12px, 2.5vw, 20px);
   background: var(--kraft-text);
-  margin-left: -1px;
+  margin-left: calc(clamp(1.5px, 0.3vw, 2px) / -2);
 }
 
 .digital-time {
-  font-size: 1.1rem;
+  font-size: clamp(0.85rem, 2vw, 1.2rem);
   font-weight: 700;
   color: var(--kraft-text);
   letter-spacing: 0.05em;
 }
 
-/* === 响应式 === */
-@media (max-width: 768px) {
-  .app-container {
-    padding: var(--space-md);
-  }
-
-  .paper-card {
-    padding: var(--space-md);
-  }
-
-  .journal-title {
-    font-size: 1.5rem;
-  }
-
-  .add-todo-form {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .add-btn {
-    width: 100%;
-  }
-
-  .stats-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-sm);
-  }
-
-  .stat-number {
-    font-size: 1.8rem;
-  }
-
+/* === 触摸设备操作按钮常驻 === */
+@media (hover: none) and (pointer: coarse) {
   .todo-actions {
     opacity: 1;
-  }
-
-  .clock-widget {
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 480px) {
-  .journal-title {
-    font-size: 1.3rem;
-  }
-
-  .tab {
-    font-size: 0.8rem;
-    padding: var(--space-xs) var(--space-sm);
-  }
-
-  .search-bar {
-    flex-direction: column;
-  }
-
-  .search-input {
-    width: 100%;
-  }
-
-  .stats-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .stats-grid .stat-card:last-child {
-    grid-column: span 2;
-  }
-
-  .todo-item {
-    padding: var(--space-sm);
   }
 }
 

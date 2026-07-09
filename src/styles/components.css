@@ -1,12 +1,12 @@
 /* ============================================
-   手帐待办 — 组件样式
+   手帐待办 — 组件样式（流体响应式）
    ============================================ */
 
 /* === 标题 === */
 .journal-title {
-  font-size: 2rem;
+  font-size: clamp(1.15rem, 3.5vw, 2rem);
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: clamp(0.08em, 0.2vw, 0.15em);
   color: var(--kraft-text);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
   position: relative;
@@ -15,8 +15,8 @@
 .journal-title::after {
   content: '';
   display: block;
-  width: 60px;
-  height: 3px;
+  width: clamp(30px, 8vw, 60px);
+  height: clamp(2px, 0.4vw, 3px);
   margin: var(--space-sm) auto 0;
   border-radius: 2px;
   transform: rotate(-0.5deg);
@@ -27,8 +27,8 @@
   flex-shrink: 0;
   cursor: pointer;
   position: relative;
-  width: 28px;
-  height: 28px;
+  width: clamp(22px, 4vw, 28px);
+  height: clamp(22px, 4vw, 28px);
 }
 
 .todo-checkbox input {
@@ -42,8 +42,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: clamp(22px, 4vw, 28px);
+  height: clamp(22px, 4vw, 28px);
   border: 2px dashed var(--kraft-dark);
   border-radius: var(--radius-blob);
   transition: all var(--transition-fast);
@@ -53,7 +53,7 @@
 
 .checkbox-visual::after {
   content: '✓';
-  font-size: 16px;
+  font-size: clamp(12px, 2.5vw, 16px);
   color: white;
   opacity: 0;
   transition: opacity var(--transition-fast);
@@ -76,7 +76,7 @@
 
 /* === 待办文本 === */
 .todo-text {
-  font-size: 1rem;
+  font-size: clamp(0.85rem, 2vw, 1rem);
   line-height: 1.5;
   transition: all var(--transition-med);
   word-break: break-word;
@@ -108,10 +108,10 @@
 .category-sticker {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 2px 10px;
+  gap: clamp(2px, 0.5vw, 4px);
+  padding: clamp(1px, 0.5vw, 2px) clamp(6px, 1.5vw, 10px);
   border-radius: 20px;
-  font-size: 0.75rem;
+  font-size: clamp(0.65rem, 1.3vw, 0.75rem);
   font-weight: 500;
   box-shadow: var(--shadow-sticker);
   transform: rotate(-0.5deg);
@@ -127,10 +127,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
+  width: clamp(18px, 3vw, 22px);
+  height: clamp(18px, 3vw, 22px);
   border-radius: 50%;
-  font-size: 0.7rem;
+  font-size: clamp(0.6rem, 1.2vw, 0.7rem);
   font-weight: 700;
   color: white;
   box-shadow: var(--shadow-sticker);
@@ -153,25 +153,60 @@
   opacity: 1;
 }
 
+/* 触摸设备上始终显示操作按钮 */
+@media (hover: none) and (pointer: coarse) {
+  .todo-actions {
+    opacity: 1;
+  }
+}
+
 .btn-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: clamp(24px, 4vw, 28px);
+  height: clamp(24px, 4vw, 28px);
   border: none;
   border-radius: 50%;
   background: transparent;
   color: var(--kraft-text-light);
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 1.5vw, 0.85rem);
   cursor: pointer;
   transition: all var(--transition-fast);
+  min-width: clamp(24px, 4vw, 28px);
+  min-height: clamp(24px, 4vw, 28px);
 }
 
 .btn-icon:hover {
   background: rgba(62, 47, 28, 0.1);
   color: var(--kraft-text);
   transform: scale(1.15);
+}
+
+/* 触摸设备增大按钮 */
+@media (hover: none) and (pointer: coarse) {
+  .btn-icon {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    font-size: 0.9rem;
+  }
+
+  .todo-checkbox,
+  .checkbox-visual {
+    width: 32px;
+    height: 32px;
+  }
+
+  .todo-checkbox input:checked + .checkbox-visual {
+    width: 32px;
+    height: 32px;
+  }
+
+  .checkbox-visual::after {
+    font-size: 18px;
+  }
 }
 
 /* === 添加表单 === */
@@ -182,6 +217,13 @@
   flex-wrap: wrap;
 }
 
+/* 触摸设备上的表单 */
+@media (hover: none) and (pointer: coarse) {
+  .add-todo-form {
+    align-items: stretch;
+  }
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -189,7 +231,7 @@
 }
 
 .form-group label {
-  font-size: 0.75rem;
+  font-size: clamp(0.65rem, 1.3vw, 0.75rem);
   color: var(--kraft-text-light);
 }
 
@@ -201,9 +243,19 @@
   padding: var(--space-sm) var(--space-md);
   background: rgba(255, 255, 255, 0.3);
   color: var(--kraft-text);
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
   outline: none;
   transition: all var(--transition-fast);
+  min-height: clamp(36px, 8vw, 44px);
+}
+
+/* 触摸设备上的表单控件 */
+@media (hover: none) and (pointer: coarse) {
+  .form-input,
+  .form-select {
+    font-size: 16px; /* 防止 iOS Safari 自动缩放 */
+    min-height: 44px;
+  }
 }
 
 .form-input:focus,
@@ -221,9 +273,9 @@
 
 .add-btn {
   font-family: var(--font-main);
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
   font-weight: 700;
-  padding: var(--space-sm) var(--space-lg);
+  padding: clamp(0.35rem, 0.8vw, 0.5rem) clamp(0.8rem, 2vw, 1.25rem);
   border: 2px solid var(--kraft-dark);
   border-radius: var(--radius-blob);
   background: var(--kraft-dark);
@@ -253,12 +305,12 @@
 
 .search-input {
   flex: 1;
-  min-width: 150px;
+  min-width: clamp(100px, 30vw, 200px);
 }
 
 .filter-select {
   font-family: var(--font-main);
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 1.5vw, 0.85rem);
   padding: var(--space-xs) var(--space-sm);
   border: 2px dashed var(--kraft-dark);
   border-radius: var(--radius-wobbly);
@@ -267,6 +319,7 @@
   outline: none;
   cursor: pointer;
   transition: all var(--transition-fast);
+  min-height: clamp(32px, 7vw, 36px);
 }
 
 .filter-select:focus {
@@ -274,15 +327,24 @@
   box-shadow: 0 0 0 3px rgba(62, 47, 28, 0.1);
 }
 
+/* 触摸设备上的筛选器 */
+@media (hover: none) and (pointer: coarse) {
+  .filter-select {
+    font-size: 0.9rem;
+    padding: var(--space-sm);
+    min-height: 44px;
+  }
+}
+
 /* === 空状态 === */
 .empty-state {
   text-align: center;
-  padding: var(--space-xl) var(--space-md);
+  padding: clamp(1.5rem, 4vw, 2rem) clamp(0.75rem, 2vw, 1rem);
   color: var(--kraft-text-light);
 }
 
 .empty-icon {
-  font-size: 3rem;
+  font-size: clamp(2rem, 6vw, 3rem);
   margin-bottom: var(--space-md);
   opacity: 0.5;
   transform: rotate(-5deg);
@@ -290,19 +352,19 @@
 }
 
 .empty-text {
-  font-size: 1.1rem;
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
   margin-bottom: var(--space-xs);
 }
 
 .empty-sub {
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 1.5vw, 0.85rem);
   opacity: 0.7;
 }
 
 /* === 统计卡片 === */
 .stat-card {
   text-align: center;
-  padding: var(--space-lg);
+  padding: clamp(0.5rem, 2vw, 1rem);
   border: 2px dashed var(--kraft-dark);
   border-radius: var(--radius-blob);
   background: rgba(255, 255, 255, 0.2);
@@ -315,7 +377,7 @@
 
 .stat-number {
   display: block;
-  font-size: 2.5rem;
+  font-size: clamp(1.2rem, 4vw, 2.5rem);
   font-weight: 700;
   color: var(--kraft-text);
   line-height: 1;
@@ -323,15 +385,15 @@
 }
 
 .stat-label {
-  font-size: 0.85rem;
+  font-size: clamp(0.7rem, 1.5vw, 0.85rem);
   color: var(--kraft-text-light);
 }
 
 /* === 进度环 === */
 .progress-ring-container {
-  width: 120px;
-  height: 120px;
-  margin: var(--space-md) auto;
+  width: clamp(70px, 15vw, 120px);
+  height: clamp(70px, 15vw, 120px);
+  margin: clamp(0.3rem, 1.5vw, 0.75rem) auto;
   position: relative;
 }
 
@@ -361,7 +423,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: clamp(0.85rem, 2.5vw, 1.5rem);
   font-weight: 700;
   color: var(--kraft-text);
 }
@@ -374,7 +436,7 @@
 .edit-input {
   display: none;
   font-family: var(--font-main);
-  font-size: 1rem;
+  font-size: clamp(0.85rem, 2vw, 1rem);
   width: 100%;
   border: 2px solid var(--kraft-dark);
   border-radius: var(--radius-wobbly);
@@ -397,7 +459,7 @@
   z-index: 1000;
   padding: var(--space-md);
   text-align: center;
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
   transform: translateY(-100%);
   transition: transform var(--transition-med);
   border-bottom: 2px dashed var(--kraft-dark);
@@ -422,7 +484,7 @@
   background: transparent;
   color: var(--kraft-text);
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 1.5vw, 0.85rem);
   transition: all var(--transition-fast);
 }
 
