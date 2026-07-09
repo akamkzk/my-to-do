@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { AppProvider, useApp } from './contexts/AppContext';
+import SplashScreen from './components/SplashScreen';
 import Header from './components/Header';
 import TabBar from './components/TabBar';
 import SearchBar from './components/SearchBar';
@@ -40,10 +42,15 @@ function AppContent() {
 }
 
 function App() {
+  const [showSplash, setShowSplash] = useState(true);
+
   return (
-    <AppProvider>
-      <AppContent />
-    </AppProvider>
+    <>
+      {showSplash && <SplashScreen onDone={() => setShowSplash(false)} />}
+      <AppProvider>
+        <AppContent />
+      </AppProvider>
+    </>
   );
 }
 
