@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>マイ・ジャーナル — 手帳スタイル TODO</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/kraft-paper.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+  <div class="kraft-background">
+    <div class="app-container">
+
+      <!-- ===== 头部 ===== -->
+      <header class="journal-header">
+        <div class="header-top">
+          <h1 class="journal-title">マイ・ジャーナル</h1>
+          <span class="date-stamp" id="dateStamp"></span>
+        </div>
+        <div class="clock-widget">
+          <div class="analog-clock">
+            <div class="clock-center"></div>
+            <div class="clock-hand hour" id="hourHand"></div>
+            <div class="clock-hand minute" id="minuteHand"></div>
+          </div>
+          <span class="digital-time" id="digitalTime"></span>
+        </div>
+      </header>
+
+      <!-- ===== 标签栏 ===== -->
+      <nav class="tab-bar">
+        <button class="tab active" data-tab="all">すべて</button>
+        <button class="tab" data-tab="pending">未完了</button>
+        <button class="tab" data-tab="completed">完了</button>
+        <button class="tab" data-tab="stats">統計</button>
+      </nav>
+
+      <!-- ===== 主内容区 ===== -->
+      <div class="main-content">
+
+        <!-- 待办列表 -->
+        <section class="content-section active" id="sectionTodos">
+          <div class="paper-card sketch-frame breathe-shadow">
+
+            <!-- 搜索 & 过滤 -->
+            <div class="search-bar" style="margin-bottom: var(--space-md);">
+              <input type="text" id="searchInput" class="form-input search-input" placeholder="🔍 タスクを検索..." />
+              <select id="filterCategory" class="filter-select">
+                <option value="">全カテゴリ</option>
+              </select>
+              <select id="filterPriority" class="filter-select">
+                <option value="">全優先度</option>
+                <option value="high">高</option>
+                <option value="medium">中</option>
+                <option value="low">低</option>
+              </select>
+            </div>
+
+            <hr class="line-divider">
+
+            <!-- 添加表单 -->
+            <form class="add-todo-form" id="addTodoForm">
+              <div class="form-group" style="flex: 1; min-width: 180px;">
+                <input type="text" id="newTodoText" class="form-input" placeholder="新しいタスクを入力..." required />
+              </div>
+              <div class="form-group">
+                <select id="newTodoCategory" class="form-select">
+                  <option value="personal">🏠 個人</option>
+                  <option value="work">💼 仕事</option>
+                  <option value="shopping">🛒 買い物</option>
+                  <option value="health">❤️ 健康</option>
+                  <option value="study">📚 勉強</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <select id="newTodoPriority" class="form-select">
+                  <option value="high">🔴 高</option>
+                  <option value="medium" selected>🟡 中</option>
+                  <option value="low">🟢 低</option>
+                </select>
+              </div>
+              <button type="submit" class="add-btn">＋ 追加</button>
+            </form>
+
+            <div class="washi-tape washi-pink"></div>
+
+            <!-- 待办列表 -->
+            <ul class="todo-list" id="todoList"></ul>
+
+            <!-- 空状态 -->
+            <div class="empty-state" id="emptyState">
+              <div class="empty-icon">📝</div>
+              <p class="empty-text">今日は何もありません。</p>
+              <p class="empty-sub">新しいタスクを追加してください</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 统计面板 -->
+        <section class="content-section" id="sectionStats">
+          <div class="paper-card stats-panel sketch-frame breathe-shadow">
+            <div class="washi-tape washi-blue" style="margin-top:0;"></div>
+            <h2 style="text-align:center; margin-bottom: var(--space-lg); font-size: 1.2rem;">📊 作業統計</h2>
+
+            <div class="stats-grid">
+              <div class="stat-card">
+                <span class="stat-number" id="statTotal">0</span>
+                <span class="stat-label">合計</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-number" id="statCompleted">0</span>
+                <span class="stat-label">完了</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-number" id="statPending">0</span>
+                <span class="stat-label">保留中</span>
+              </div>
+            </div>
+
+            <div class="progress-ring-container">
+              <svg class="progress-ring" viewBox="0 0 120 120">
+                <circle class="progress-ring-bg" cx="60" cy="60" r="50" />
+                <circle id="progressRingCircle" class="progress-ring-fill" cx="60" cy="60" r="50"
+                  stroke-dasharray="314.16" stroke-dashoffset="314.16" />
+              </svg>
+              <span class="progress-ring-text" id="progressPct">0%</span>
+            </div>
+
+            <div class="stats-detail"></div>
+
+            <div style="text-align:center; margin-top: var(--space-lg);">
+              <button id="clearCompletedBtn" class="confirm-btn" style="font-size: 0.85rem;">
+                🗑 完了タスクをクリア
+              </button>
+            </div>
+
+            <div class="washi-tape washi-green" style="margin-bottom:0;"></div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- ===== JS ===== -->
+    <script src="js/i18n.js"></script>
+    <script src="js/model.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/clock.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+  </div>
+</body>
+</html>

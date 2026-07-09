@@ -1,0 +1,93 @@
+/* ============================================
+   手帐待办 — 全局样式 & 自定义属性
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;700&display=swap');
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* === 牛皮纸色调 === */
+  --kraft-bg: #d4b483;
+  --kraft-light: #e8d5b7;
+  --kraft-dark: #8b6d46;
+  --kraft-text: #3e2f1c;
+  --kraft-text-light: #6b5a45;
+
+  /* === 和纸胶带色 === */
+  --washi-pink: #f7b7c4;
+  --washi-blue: #a8d8ea;
+  --washi-green: #b5ead7;
+  --washi-yellow: #ffeaa7;
+  --washi-purple: #d5a6e6;
+  --washi-orange: #ffd3b6;
+
+  /* === 贴纸色 === */
+  --sticker-high: #ff6b6b;
+  --sticker-medium: #ffa94d;
+  --sticker-low: #51cf66;
+  --sticker-done: #adb5bd;
+
+  /* === 分类色 === */
+  --cat-work: #a8d8ea;
+  --cat-personal: #f7b7c4;
+  --cat-shopping: #b5ead7;
+  --cat-health: #ffd3b6;
+  --cat-study: #d5a6e6;
+
+  /* === 字体 === */
+  --font-main: 'Noto Serif JP', 'Hiragino Mincho Pro', 'Yu Mincho', serif;
+
+  /* === 阴影 === */
+  --shadow-paper: 2px 3px 12px rgba(62, 47, 28, 0.15);
+  --shadow-sticker: 1px 1px 4px rgba(0, 0, 0, 0.1);
+  --shadow-depth: 0 8px 32px rgba(62, 47, 28, 0.2);
+  --shadow-hover: 0 12px 40px rgba(62, 47, 28, 0.25);
+
+  /* === 手绘边框圆角 === */
+  --radius-blob: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  --radius-note: 15px 225px 15px 255px / 255px 15px 225px 15px;
+  --radius-wobbly: 3px 5px 2px 6px / 4px 2px 5px 3px;
+
+  /* === 间距 === */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+
+  /* === 过渡 === */
+  --transition-fast: 0.2s ease;
+  --transition-med: 0.3s ease;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-main);
+  color: var(--kraft-text);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--kraft-light);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--kraft-dark);
+  border-radius: 4px;
+}

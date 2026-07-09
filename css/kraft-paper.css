@@ -1,0 +1,167 @@
+/* ============================================
+   手帐待办 — 牛皮纸纹理 & 装饰
+   ============================================ */
+
+/* === 牛皮纸背景 === */
+.kraft-background {
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(139, 109, 70, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(160, 130, 90, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(120, 90, 50, 0.05) 0%, transparent 50%),
+    linear-gradient(135deg, #d4b483 0%, #e8d5b7 25%, #d4b483 50%, #c9a97c 75%, #d4b483 100%);
+  min-height: 100vh;
+}
+
+/* === 牛皮纸卡片 === */
+.paper-card {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 28px,
+      rgba(139, 109, 70, 0.06) 28px,
+      rgba(139, 109, 70, 0.06) 29px
+    ),
+    radial-gradient(ellipse at center, var(--kraft-light) 0%, var(--kraft-bg) 100%);
+  border-radius: var(--radius-blob);
+  box-shadow: var(--shadow-depth);
+  position: relative;
+}
+
+/* === 和纸胶带 === */
+.washi-tape {
+  position: relative;
+  height: 24px;
+  margin: var(--space-md) 0;
+  border-radius: 2px 4px 1px 3px;
+  transform: rotate(-0.3deg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  opacity: 0.85;
+  background: linear-gradient(
+    90deg,
+    rgba(247, 183, 196, 0.7) 0%,
+    rgba(247, 183, 196, 0.45) 50%,
+    rgba(247, 183, 196, 0.7) 100%
+  );
+}
+
+.washi-tape::before,
+.washi-tape::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background: inherit;
+  border-radius: inherit;
+}
+
+.washi-tape.washi-pink {
+  background: linear-gradient(90deg, rgba(247, 183, 196, 0.7) 0%, rgba(247, 183, 196, 0.45) 50%, rgba(247, 183, 196, 0.7) 100%);
+}
+.washi-tape.washi-blue {
+  background: linear-gradient(90deg, rgba(168, 216, 234, 0.7) 0%, rgba(168, 216, 234, 0.45) 50%, rgba(168, 216, 234, 0.7) 100%);
+}
+.washi-tape.washi-green {
+  background: linear-gradient(90deg, rgba(181, 234, 215, 0.7) 0%, rgba(181, 234, 215, 0.45) 50%, rgba(181, 234, 215, 0.7) 100%);
+}
+.washi-tape.washi-yellow {
+  background: linear-gradient(90deg, rgba(255, 234, 167, 0.7) 0%, rgba(255, 234, 167, 0.45) 50%, rgba(255, 234, 167, 0.7) 100%);
+}
+.washi-tape.washi-purple {
+  background: linear-gradient(90deg, rgba(213, 166, 230, 0.7) 0%, rgba(213, 166, 230, 0.45) 50%, rgba(213, 166, 230, 0.7) 100%);
+}
+.washi-tape.washi-orange {
+  background: linear-gradient(90deg, rgba(255, 211, 182, 0.7) 0%, rgba(255, 211, 182, 0.45) 50%, rgba(255, 211, 182, 0.7) 100%);
+}
+
+/* === 手绘虚线边框 === */
+.dashed-border {
+  border: 2px dashed var(--kraft-dark);
+  border-radius: var(--radius-blob);
+  padding: var(--space-sm) var(--space-md);
+}
+
+.torn-edge {
+  border-bottom: 2px dashed var(--kraft-dark);
+  border-radius: var(--radius-note);
+}
+
+/* === 日期印章 === */
+.date-stamp {
+  display: inline-block;
+  border: 2px solid var(--kraft-dark);
+  border-radius: var(--radius-wobbly);
+  padding: var(--space-xs) var(--space-sm);
+  font-size: 0.85rem;
+  color: var(--kraft-text-light);
+  transform: rotate(-2deg);
+  opacity: 0.8;
+  letter-spacing: 0.05em;
+}
+
+/* === 手绘边框容器 === */
+.sketch-frame {
+  border: 2px solid var(--kraft-dark);
+  border-radius: var(--radius-blob);
+  box-shadow: var(--shadow-paper);
+}
+
+/* === 有机旋转类 === */
+.rotate-left { transform: rotate(-0.5deg); }
+.rotate-right { transform: rotate(0.5deg); }
+.rotate-slight { transform: rotate(-1deg); }
+.rotate-more { transform: rotate(1.5deg); }
+
+/* === 呼吸阴影动画 === */
+@keyframes breathe {
+  0%, 100% { box-shadow: var(--shadow-paper); }
+  50% { box-shadow: 0 4px 20px rgba(62, 47, 28, 0.2); }
+}
+
+.breathe-shadow {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+/* === 贴纸图标 === */
+.sticker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 2px var(--space-sm);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-sticker);
+  transform: rotate(-0.5deg);
+  transition: transform var(--transition-fast);
+}
+
+.sticker:hover {
+  transform: rotate(0deg) scale(1.05);
+}
+
+/* === 小圆点装饰 === */
+.dot-deco {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--kraft-dark);
+  opacity: 0.3;
+}
+
+/* === 横线分隔 === */
+.line-divider {
+  border: none;
+  height: 1px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--kraft-dark) 0px,
+    var(--kraft-dark) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  opacity: 0.3;
+  margin: var(--space-md) 0;
+}
