@@ -1,15 +1,27 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useApp } from '../contexts/AppContext';
 
 const StatsPanel: React.FC = () => {
   const { t, getStats, clearCompleted } = useApp();
+  const [ringAnimated, setRingAnimated] = useState(false);
+  const hasRun = useRef(false);
 
   const stats = getStats();
-  const circumference = 2 * Math.PI * 50; // r=50
+  const circumference = 2 * Math.PI * 50;
   const offset = circumference - (stats.percentage / 100) * circumference;
 
   const cats = Object.entries(stats.byCategory);
   const maxCount = cats.length > 0 ? Math.max(...cats.map(([, v]) => v.total)) : 0;
+
+  useEffect(() => {
+    if (!hasRun.current) {
+      hasRun.current = true;
+      // Trigger ring animation after mount
+      requestAnimationFrame(() => {
+        setRingAnimated(true);
+      });
+    }
+  }, []);
 
   return (
     <div className="paper-card stats-panel sketch-frame breathe-shadow">
@@ -42,7 +54,7 @@ const StatsPanel: React.FC = () => {
             cy="60"
             r="50"
             strokeDasharray={circumference}
-            strokeDashoffset={offset}
+            strokeDashoffset={ringAnimated ? offset : circumference}
           />
         </svg>
         <span className="progress-ring-text">{stats.percentage}%</span>
@@ -54,20 +66,25 @@ const StatsPanel: React.FC = () => {
             {t('noDataYet')}
           </p>
         ) : (
-          cats.map(([key, val]) => {
+          cats.map(([key, val], i) => {
             const catEmoji = { work: '💼', personal: '🏠', shopping: '🛒', health: '❤️', study: '📚' }[key] || '📋';
             const catColor = { work: '#a8d8ea', personal: '#f7b7c4', shopping: '#b5ead7', health: '#ffd3b6', study: '#d5a6e6' }[key] || '#ccc';
             const catLabelKey = `cat${key.charAt(0).toUpperCase()}${key.slice(1)}`;
             const catLabel = t(catLabelKey as 'catPersonal');
             return (
-              <div key={key} className="stats-category-row">
+              <div
+                key={key}
+                className="stats-category-row"
+                style={{ animationDelay: `${i * 0.08}s` }}
+              >
                 <span className="stats-category-label">{catEmoji} {catLabel}</span>
                 <div className="stats-category-bar">
                   <div
                     className="stats-category-fill"
                     style={{
-                      width: maxCount > 0 ? `${(val.total / maxCount) * 100}%` : '0%',
+                      width: ringAnimated && maxCount > 0 ? `${(val.total / maxCount) * 100}%` : '0%',
                       background: catColor,
+                      transitionDelay: `${i * 0.08}s`,
                     }}
                   />
                 </div>

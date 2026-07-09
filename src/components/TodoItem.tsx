@@ -12,6 +12,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, index }) => {
   const { t, toggleTodo, removeTodo, updateTodo } = useApp();
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(todo.text);
+  const [isExiting, setIsExiting] = useState(false);
   const editInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -43,15 +44,20 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, index }) => {
     handleSave();
   };
 
+  const handleDelete = () => {
+    setIsExiting(true);
+    setTimeout(() => removeTodo(todo.id), 350);
+  };
+
   const cat = getCategoryInfo(todo.category, t);
   const priorityLabel = getPriorityLabel(todo.priority, t);
   const prioKey = todo.priority === 'high' ? 'prioHigh' : todo.priority === 'medium' ? 'prioMedium' : 'prioLow';
 
   return (
     <li
-      className={`todo-item${todo.completed ? ' completed' : ''}`}
+      className={`todo-item${todo.completed ? ' completed' : ''}${isExiting ? ' exiting' : ''}`}
       data-testid={todo.id}
-      style={{ animationDelay: `${index * 0.05}s` }}
+      style={{ animationDelay: isExiting ? undefined : `${index * 0.06}s` }}
     >
       <label className="todo-checkbox">
         <input
@@ -109,15 +115,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, index }) => {
         <button
           className="btn-icon delete-btn"
           title={t('tooltipDelete')}
-          onClick={() => {
-            const el = editInputRef.current?.closest('li');
-            if (el) {
-              el.classList.add('exiting');
-              setTimeout(() => removeTodo(todo.id), 300);
-            } else {
-              removeTodo(todo.id);
-            }
-          }}
+          onClick={handleDelete}
         >
           ✕
         </button>

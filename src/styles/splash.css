@@ -244,3 +244,20 @@
     height: 32px;
   }
 }
+
+/* === 尊重减少动画偏好 === */
+@media (prefers-reduced-motion: reduce) {
+  .splash-airplane,
+  .splash-title-group,
+  .splash-title-ja,
+  .splash-subtitle,
+  .particle,
+  .trail-path {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+  }
+
+  .splash-screen {
+    transition: none;
+  }
+}

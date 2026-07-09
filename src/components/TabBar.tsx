@@ -1,11 +1,27 @@
+import React, { useRef, useEffect } from 'react';
 import { useApp } from '../contexts/AppContext';
 
 const TabBar: React.FC = () => {
   const { activeTab, setActiveTab, t, todos } = useApp();
+  const prevCountsRef = useRef<{ all: number; pending: number; completed: number }>({
+    all: 0, pending: 0, completed: 0,
+  });
+  const bumpedRef = useRef<Record<string, boolean>>({});
 
   const allCount = todos.length;
-  const pendingCount = todos.filter(t => !t.completed).length;
-  const completedCount = todos.filter(t => t.completed).length;
+  const pendingCount = todos.filter(todo => !todo.completed).length;
+  const completedCount = todos.filter(todo => todo.completed).length;
+
+  const counts = { all: allCount, pending: pendingCount, completed: completedCount };
+
+  useEffect(() => {
+    const prev = prevCountsRef.current;
+    bumpedRef.current = {};
+    if (counts.all !== prev.all) bumpedRef.current.all = true;
+    if (counts.pending !== prev.pending) bumpedRef.current.pending = true;
+    if (counts.completed !== prev.completed) bumpedRef.current.completed = true;
+    prevCountsRef.current = counts;
+  }, [counts]);
 
   const tabs: { key: typeof activeTab; labelKey: string }[] = [
     { key: 'all', labelKey: 'tabAll' },
@@ -13,8 +29,6 @@ const TabBar: React.FC = () => {
     { key: 'completed', labelKey: 'tabCompleted' },
     { key: 'stats', labelKey: 'tabStats' },
   ];
-
-  const counts = { all: allCount, pending: pendingCount, completed: completedCount };
 
   return (
     <nav className="tab-bar" role="tablist">
@@ -29,7 +43,9 @@ const TabBar: React.FC = () => {
         >
           {t(labelKey)}
           {key !== 'stats' && (
-            <span className="tab-count">{counts[key as keyof typeof counts]}</span>
+            <span className={`tab-count${bumpedRef.current[key] ? ' bump' : ''}`}>
+              {counts[key as keyof typeof counts]}
+            </span>
           )}
         </button>
       ))}

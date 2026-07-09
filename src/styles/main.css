@@ -65,6 +65,7 @@
   /* === 过渡 === */
   --transition-fast: 0.2s ease;
   --transition-med: 0.3s ease;
+  --transition-spring: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 html {
@@ -97,4 +98,23 @@ body {
 ::-webkit-scrollbar-thumb {
   background: var(--kraft-dark);
   border-radius: 4px;
+}
+
+/* === 尊重减少动画偏好 === */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  .breathe-shadow {
+    animation: none;
+  }
 }
