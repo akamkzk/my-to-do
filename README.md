@@ -1,16 +1,16 @@
 # マイ・ジャーナル — 手帳スタイル TODO
 
-[![Deploy to GitHub Pages](https://github.com/akamkzk/my-to-do/actions/workflows/deploy.yml/badge.svg)](https://github.com/akamkzk/my-to-do/actions/workflows/deploy.yml)
-[![Deploy](https://github.com/akamkzk/my-to-do/actions/workflows/deploy.yml/badge.svg)](https://akamkzk.github.io/my-to-do/)
+[![Deploy to Cloudflare Pages](https://github.com/akamkzk/my-to-do/actions/workflows/deploy.yml/badge.svg)](https://github.com/akamkzk/my-to-do/actions/workflows/deploy.yml)
 
-> [在线体验 →](https://akamkzk.github.io/my-to-do/)
+> [在线体验 →](https://my-to-do.akamkzk.workers.dev)
 
-一款手帐风格的 TODO 应用，采用牛皮纸主题视觉设计，配有和纸胶带装饰、模拟/数字时钟和多语言支持。
+一款手帐风格的 TODO 应用，采用牛皮纸主题视觉设计，配有和纸胶带装饰、模拟/数字时钟、专注计时器和多语言支持。
 
 ## ✨ 特性
 
 - 📝 **手帐风格 UI** — 牛皮纸背景、和纸胶带装饰、手绘圆角、柔和阴影
 - ⏰ **双时钟显示** — 模拟时钟 + 数字时钟，实时显示当前时间
+- 🎯 **专注计时器** — Pomodoro 番茄钟，支持自定义时长、预设按钮、自动休息、浏览器通知、唤醒锁
 - 🌐 **多语言支持** — 日语 / 简体中文 / 英语，自动检测浏览器语言偏好
 - 🔍 **智能搜索与筛选** — 分类筛选、优先级筛选、实时搜索（防抖）
 - 📊 **统计面板** — 进度环、分类柱状图、完成统计一目了然
@@ -44,7 +44,7 @@ npm run preview
 
 ## 🚀 部署
 
-本项目自动部署到 GitHub Pages，每次 push 到 `main` 分支会触发 GitHub Actions 自动构建和部署。
+本项目通过 GitHub Actions 自动部署到 Cloudflare Pages，每次 push 到 `main` 分支会触发自动构建和部署。
 
 ## 📁 项目结构
 
@@ -61,10 +61,27 @@ src/
 │   └── validators.ts        # HTML 转义、防抖
 ├── hooks/                   # 自定义 Hooks
 ├── components/              # React 组件
+│   ├── FocusPanel.tsx       # 专注计时器面板
+│   └── ...
 └── styles/                  # 样式模块
+    └── focus.css            # 专注面板样式
 ```
 
 ## 📝 更新日志
+
+### v0.1.3 — 专注计时器面板
+
+- **新增**：专注计时器（Focus Panel），支持 Pomodoro 番茄钟工作流
+- **新增**：预设时长按钮（25/15/10/5 分钟）+ 自定义时长输入
+- **新增**：SVG 环形进度条可视化倒计时
+- **新增**：专注完成后自动进入 5 分钟休息倒计时
+- **新增**：浏览器通知 + 提示音提醒（Web Notification API + AudioContext）
+- **新增**：屏幕唤醒锁（Wake Lock API），专注期间防止屏幕关闭
+- **新增**：会话计数持久化（localStorage），跨页面刷新保持数据
+- **新增**：完成脉冲动画 + 跳过休息按钮
+- **修复**：TabBar 专注标签页空徽章 Bug
+- **修复**：暂停时出现重复按钮的 UI 问题
+- **修复**：休息结束后状态不一致的 Bug
 
 ### v0.1.2 — 启动画面与项目配置更新
 
