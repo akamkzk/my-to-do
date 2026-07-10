@@ -1,8 +1,8 @@
 # マイ・ジャーナル — 手帳スタイル TODO
 
-[![Deploy to Cloudflare Pages](https://github.com/akamkzk/my-to-do/actions/workflows/deploy.yml/badge.svg)](https://github.com/akamkzk/my-to-do/actions/workflows/deploy.yml)
+[![Deploy to GitHub Pages](https://github.com/akamkzk/my-to-do/actions/workflows/deploy.yml/badge.svg)](https://github.com/akamkzk/my-to-do/actions/workflows/deploy.yml)
 
-> [在线体验 →](https://my-to-do.akamkzk.workers.dev)
+> [在线体验 →](https://akamkzk.github.io/my-to-do/)
 
 一款手帐风格的 TODO 应用，采用牛皮纸主题视觉设计，配有和纸胶带装饰、模拟/数字时钟、专注计时器、自习室和多语言支持。
 
@@ -45,7 +45,7 @@ npm run preview
 
 ## 🚀 部署
 
-本项目通过 GitHub Actions 自动部署到 Cloudflare Pages，每次 push 到 `main` 分支会触发自动构建和部署。
+本项目通过 GitHub Actions 自动部署到 GitHub Pages，每次 push 到 `main` 分支会触发自动构建和部署。
 
 ## 📁 项目结构
 
@@ -59,9 +59,11 @@ src/
 │   ├── model.ts             # 常量与工具函数
 │   ├── i18n.ts              # 多语言翻译
 │   ├── clock.ts             # 时钟计算
-│   └── validators.ts        # HTML 转义、防抖
+│   ├── validators.ts        # HTML 转义、防抖
+│   └── announcements.ts     # 公告管理
 ├── hooks/                   # 自定义 Hooks
 ├── components/              # React 组件
+│   ├── AnnouncementBanner.tsx  # 公告横幅
 │   ├── FocusPanel.tsx       # 专注计时器面板
 │   ├── StudyRoomPanel.tsx   # 自习室面板
 │   └── ...
@@ -71,6 +73,14 @@ src/
 ```
 
 ## 📝 更新日志
+
+### v0.1.5 — 公告功能
+
+- **新增**：公告横幅（Announcement Banner），展示版本更新信息和重要通知
+- **新增**：公告置顶支持，重要公告始终置顶显示
+- **新增**：未读徽标，实时显示未读公告数量
+- **新增**：逐条关闭 / 全部已读，支持标记单条或批量标记公告为已读
+- **新增**：公告持久化（localStorage），刷新页面后保持已读状态
 
 ### v0.1.4 — 自习室功能
 

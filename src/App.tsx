@@ -9,6 +9,7 @@ import TodoList from './components/TodoList';
 import StatsPanel from './components/StatsPanel';
 import FocusPanel from './components/FocusPanel';
 import StudyRoomPanel from './components/StudyRoomPanel';
+import AnnouncementBanner from './components/AnnouncementBanner';
 
 function AppContent() {
   const { filteredTodos, activeTab } = useApp();
@@ -20,6 +21,8 @@ function AppContent() {
         <TabBar />
 
         <div className="main-content">
+          <AnnouncementBanner />
+
           {(activeTab === 'all' || activeTab === 'pending' || activeTab === 'completed') && (
             <section className="content-section active" id="sectionTodos">
               <div className="paper-card sketch-frame breathe-shadow">

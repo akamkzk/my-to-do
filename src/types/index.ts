@@ -130,6 +130,18 @@ export interface Translations {
   studyMinutes: string;
   studySessionComplete: string;
   studySessionSummary: string;
+  // Announcements
+  announcementBadge: string;
+  announcementTitle: string;
+  announcementClose: string;
+  announcementMarkAllRead: string;
+  announcementNoNew: string;
+  ann_v015_title: string;
+  ann_v015_content: string;
+  ann_v014_title: string;
+  ann_v014_content: string;
+  ann_v013_title: string;
+  ann_v013_content: string;
 }
 
 export interface SearchFilters {
@@ -158,6 +170,15 @@ export interface StudySession {
 
 export interface StudyGoal {
   dailyTargetMinutes: number;
+}
+
+export interface Announcement {
+  id: string;
+  titleKey: string;     // Translation key for title
+  contentKey: string;   // Translation key for content
+  date: string;         // ISO date string (YYYY-MM-DD)
+  pinned: boolean;      // Whether this announcement is pinned
+  version?: string;     // Associated version tag
 }
 
 export interface VirtualStudent {
