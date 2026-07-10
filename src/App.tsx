@@ -8,6 +8,7 @@ import AddTodoForm from './components/AddTodoForm';
 import TodoList from './components/TodoList';
 import StatsPanel from './components/StatsPanel';
 import FocusPanel from './components/FocusPanel';
+import StudyRoomPanel from './components/StudyRoomPanel';
 
 function AppContent() {
   const { filteredTodos, activeTab } = useApp();
@@ -40,6 +41,12 @@ function AppContent() {
           {activeTab === 'focus' && (
             <section className="content-section active" id="sectionFocus">
               <FocusPanel />
+            </section>
+          )}
+
+          {activeTab === 'studyroom' && (
+            <section className="content-section active" id="sectionStudyRoom">
+              <StudyRoomPanel />
             </section>
           )}
         </div>

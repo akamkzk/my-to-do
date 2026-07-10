@@ -29,6 +29,7 @@ const TabBar: React.FC = () => {
     { key: 'completed', labelKey: 'tabCompleted' },
     { key: 'stats', labelKey: 'tabStats' },
     { key: 'focus', labelKey: 'tabFocus' },
+    { key: 'studyroom', labelKey: 'tabStudyRoom' },
   ];
 
   return (

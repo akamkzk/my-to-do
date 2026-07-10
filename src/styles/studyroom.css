@@ -1,0 +1,412 @@
+/* ============================================
+   手帐待办 — 自习室面板样式
+   ============================================ */
+
+/* === 面板容器 === */
+.studyroom-panel {
+  max-width: 480px;
+  margin-inline: auto;
+  animation: slide-down 0.35s ease forwards;
+}
+
+/* === 分区包装 === */
+.studyroom-section {
+  margin-bottom: var(--space-lg);
+}
+
+.studyroom-section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--kraft-dark);
+  margin-bottom: var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* === 科目选择按钮 === */
+.study-subjects-row {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: var(--space-md);
+}
+
+.study-subject-btn {
+  font-family: var(--font-main);
+  font-size: clamp(0.75rem, 1.3vw, 0.9rem);
+  padding: clamp(0.3rem, 0.7vw, 0.45rem) clamp(0.5rem, 1.2vw, 0.85rem);
+  border: 2px solid var(--kraft-dark);
+  border-radius: var(--radius-blob);
+  background: transparent;
+  color: var(--kraft-text);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: rotate(-0.3deg);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.study-subject-btn:hover:not(:disabled) {
+  background: rgba(139, 109, 70, 0.08);
+  transform: rotate(0deg) scale(1.05);
+  box-shadow: var(--shadow-paper);
+}
+
+.study-subject-btn.active {
+  color: var(--kraft-light);
+  border-color: var(--subject-color, var(--kraft-dark));
+  background: var(--subject-color, var(--kraft-dark));
+  transform: rotate(0deg);
+  box-shadow: var(--shadow-paper);
+}
+
+.study-subject-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* === 日历网格 === */
+.studyroom-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  margin-bottom: var(--space-md);
+}
+
+.cal-day {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(0.7rem, 1.3vw, 0.85rem);
+  color: var(--kraft-text-light);
+  border-radius: var(--radius-wobbly);
+  background: rgba(255, 255, 255, 0.15);
+  position: relative;
+  cursor: default;
+}
+
+.cal-day-empty {
+  background: transparent;
+}
+
+.cal-day-active {
+  background: rgba(213, 166, 230, 0.2);
+  color: var(--kraft-text);
+  font-weight: 700;
+}
+
+.cal-day-current {
+  border: 2px solid var(--washi-purple);
+}
+
+.cal-dot {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-top: 2px;
+}
+
+/* === 统计小卡片 === */
+.study-stats-row {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: var(--space-md);
+}
+
+.study-stat-card {
+  text-align: center;
+  padding: var(--space-sm) var(--space-md);
+  border: 2px dashed var(--kraft-dark);
+  border-radius: var(--radius-blob);
+  background: rgba(255, 255, 255, 0.2);
+  min-width: 80px;
+}
+
+.study-stat-number {
+  display: block;
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-weight: 700;
+  color: var(--kraft-text);
+  line-height: 1;
+}
+
+.study-stat-label {
+  font-size: clamp(0.65rem, 1.1vw, 0.75rem);
+  color: var(--kraft-text-light);
+  margin-top: 2px;
+}
+
+/* === 目标进度条 === */
+.study-goal-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.study-goal-input {
+  width: 70px;
+  text-align: center;
+  padding: var(--space-xs) var(--space-sm);
+  font-family: var(--font-main);
+  font-size: clamp(0.8rem, 1.3vw, 0.9rem);
+  border: 2px solid var(--kraft-dark);
+  border-radius: var(--radius-blob);
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--kraft-text);
+}
+
+.study-goal-save-btn {
+  font-family: var(--font-main);
+  font-size: clamp(0.75rem, 1.2vw, 0.85rem);
+  padding: clamp(0.25rem, 0.5vw, 0.35rem) clamp(0.5rem, 1vw, 0.75rem);
+  border: 2px solid var(--kraft-dark);
+  border-radius: var(--radius-blob);
+  background: transparent;
+  color: var(--kraft-text);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: rotate(-0.3deg);
+  white-space: nowrap;
+}
+
+.study-goal-save-btn:hover {
+  background: rgba(139, 109, 70, 0.08);
+  transform: rotate(0deg) scale(1.05);
+  box-shadow: var(--shadow-paper);
+}
+
+.study-goal-bar {
+  width: 100%;
+  height: 16px;
+  background: rgba(139, 109, 70, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: var(--space-sm);
+  position: relative;
+}
+
+.study-goal-fill {
+  height: 100%;
+  background: var(--washi-purple);
+  border-radius: 8px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.study-goal-fill.complete {
+  background: var(--sticker-low);
+}
+
+.study-goal-text {
+  text-align: center;
+  font-size: clamp(0.7rem, 1.2vw, 0.8rem);
+  color: var(--kraft-text-light);
+}
+
+/* === 趋势条形图 === */
+.trend-bars {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-end;
+  justify-content: center;
+  height: 80px;
+  margin-bottom: var(--space-md);
+}
+
+.trend-bar-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.trend-bar {
+  width: 100%;
+  max-width: 24px;
+  background: var(--washi-purple);
+  border-radius: 3px 3px 0 0;
+  min-height: 0;
+  transition: height 0.5s ease;
+}
+
+.trend-bar.has-data {
+  background: var(--kraft-dark);
+}
+
+.trend-label {
+  font-size: clamp(0.55rem, 1vw, 0.65rem);
+  color: var(--kraft-text-light);
+  margin-top: 4px;
+}
+
+.trend-value {
+  font-size: clamp(0.5rem, 0.9vw, 0.6rem);
+  color: var(--kraft-text-light);
+  margin-bottom: 2px;
+}
+
+/* === 科目分解 === */
+.study-subject-breakdown {
+  margin-bottom: var(--space-md);
+}
+
+.breakdown-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) 0;
+}
+
+.breakdown-emoji {
+  font-size: 1.1em;
+  width: 24px;
+  text-align: center;
+}
+
+.breakdown-label {
+  flex: 1;
+  font-size: clamp(0.75rem, 1.3vw, 0.85rem);
+  color: var(--kraft-text);
+}
+
+.breakdown-bar {
+  flex: 2;
+  height: 10px;
+  background: rgba(139, 109, 70, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.breakdown-fill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.breakdown-minutes {
+  font-size: clamp(0.7rem, 1.2vw, 0.8rem);
+  color: var(--kraft-text-light);
+  min-width: 36px;
+  text-align: right;
+}
+
+/* === 虚拟自习者 === */
+.virtual-students-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: var(--space-sm);
+}
+
+.student-avatar-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-sm);
+  border: 2px solid rgba(139, 109, 70, 0.15);
+  border-radius: var(--radius-note);
+  background: rgba(255, 255, 255, 0.2);
+  animation: student-enter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  transition: transform 0.2s ease;
+}
+
+.student-avatar-card:hover {
+  transform: rotate(0.5deg) scale(1.03);
+  box-shadow: var(--shadow-paper);
+}
+
+.student-avatar-card.leaving {
+  animation: student-leave 0.3s ease forwards;
+}
+
+.student-avatar-emoji {
+  font-size: 1.8em;
+  margin-bottom: 2px;
+}
+
+.student-avatar-name {
+  font-size: clamp(0.65rem, 1.1vw, 0.75rem);
+  color: var(--kraft-text);
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.student-avatar-subject {
+  font-size: clamp(0.55rem, 0.9vw, 0.65rem);
+  color: var(--kraft-text-light);
+  opacity: 0.7;
+}
+
+.student-avatar-duration {
+  font-size: clamp(0.6rem, 1vw, 0.7rem);
+  color: var(--kraft-text-light);
+  margin-top: 2px;
+}
+
+.student-status-badge {
+  font-size: clamp(0.5rem, 0.8vw, 0.6rem);
+  color: var(--kraft-text-light);
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.student-status-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--sticker-low);
+  animation: status-pulse 2s ease-in-out infinite;
+}
+
+@keyframes student-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes student-leave {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* === 响应式 === */
+@media (hover: none) and (pointer: coarse) {
+  .study-subject-btn {
+    min-height: 40px;
+  }
+
+  .student-avatar-card {
+    padding: var(--space-sm);
+  }
+}

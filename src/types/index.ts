@@ -10,7 +10,10 @@ export interface Todo {
 
 export type CategoryKey = 'work' | 'personal' | 'shopping' | 'health' | 'study';
 export type PriorityKey = 'high' | 'medium' | 'low';
-export type TabKey = 'all' | 'pending' | 'completed' | 'stats' | 'focus';
+export type TabKey = 'all' | 'pending' | 'completed' | 'stats' | 'focus' | 'studyroom';
+
+// Study room subject keys (separate from TODO categories)
+export type StudySubjectKey = 'math' | 'language' | 'science' | 'literature' | 'coding' | 'art' | 'other';
 export type Language = 'ja' | 'zh-CN' | 'en';
 
 export interface CategoryDef {
@@ -84,10 +87,84 @@ export interface Translations {
   focusCompleted: string;
   focusEnableNotifications: string;
   focusSkipBreak: string;
+  // Study room
+  tabStudyRoom: string;
+  studyRoomTitle: string;
+  studyRoomMyFocus: string;
+  studyRoomStudyCalendar: string;
+  studyRoomVirtualStudents: string;
+  studyRoomGoals: string;
+  studyRoomStatistics: string;
+  studySelectSubject: string;
+  studyPreset: string;
+  studyStart: string;
+  studyPause: string;
+  studyResume: string;
+  studyReset: string;
+  studyComplete: string;
+  studyInSession: string;
+  studyPaused: string;
+  studyReady: string;
+  studyGoalProgress: string;
+  studyGoalOf: string;
+  studyGoalMet: string;
+  studyGoalNotMet: string;
+  studySubjectMath: string;
+  studySubjectLanguage: string;
+  studySubjectScience: string;
+  studySubjectLiterature: string;
+  studySubjectCoding: string;
+  studySubjectArt: string;
+  studySubjectOther: string;
+  studyCalendarMonth: string;
+  studyStreak: string;
+  studyDays: string;
+  studyTotalMinutes: string;
+  studyNoSessions: string;
+  studyClickToStart: string;
+  studyDailyGoal: string;
+  studySaveGoal: string;
+  studyGoalUpdated: string;
+  studyOnline: string;
+  studyStudying: string;
+  studyMinutes: string;
+  studySessionComplete: string;
+  studySessionSummary: string;
 }
 
 export interface SearchFilters {
   tab?: TabKey;
   category?: string;
   priority?: string;
+}
+
+// Study room types
+
+export interface StudySubjectDef {
+  key: StudySubjectKey;
+  labelKey: string;
+  emoji: string;
+  color: string;
+}
+
+export interface StudySession {
+  id: string;
+  subject: StudySubjectKey;
+  durationMinutes: number;
+  startedAt: number;
+  completedAt: number | null;
+  goalMet: boolean;
+}
+
+export interface StudyGoal {
+  dailyTargetMinutes: number;
+}
+
+export interface VirtualStudent {
+  id: string;
+  avatar: string;
+  name: string;
+  subject: StudySubjectKey;
+  studyDuration: number;
+  joinedAt: number;
 }
