@@ -28,6 +28,7 @@ const TabBar: React.FC = () => {
     { key: 'pending', labelKey: 'tabPending' },
     { key: 'completed', labelKey: 'tabCompleted' },
     { key: 'stats', labelKey: 'tabStats' },
+    { key: 'focus', labelKey: 'tabFocus' },
   ];
 
   return (
@@ -42,7 +43,7 @@ const TabBar: React.FC = () => {
           aria-selected={activeTab === key}
         >
           {t(labelKey)}
-          {key !== 'stats' && (
+          {key !== 'stats' && key !== 'focus' && (
             <span className={`tab-count${bumpedRef.current[key] ? ' bump' : ''}`}>
               {counts[key as keyof typeof counts]}
             </span>

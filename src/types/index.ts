@@ -10,7 +10,7 @@ export interface Todo {
 
 export type CategoryKey = 'work' | 'personal' | 'shopping' | 'health' | 'study';
 export type PriorityKey = 'high' | 'medium' | 'low';
-export type TabKey = 'all' | 'pending' | 'completed' | 'stats';
+export type TabKey = 'all' | 'pending' | 'completed' | 'stats' | 'focus';
 export type Language = 'ja' | 'zh-CN' | 'en';
 
 export interface CategoryDef {
@@ -38,6 +38,7 @@ export interface Translations {
   tabPending: string;
   tabCompleted: string;
   tabStats: string;
+  tabFocus: string;
   searchPlaceholder: string;
   filterAllCategories: string;
   filterAllPriorities: string;
@@ -63,6 +64,26 @@ export interface Translations {
   tooltipDelete: string;
   weekday: string[];
   langLabel: string;
+  // Focus panel
+  focusTitle: string;
+  focusBreakTitle: string;
+  focusStart: string;
+  focusPause: string;
+  focusResume: string;
+  focusReset: string;
+  focusSessions: string;
+  focusWorking: string;
+  focusPaused: string;
+  focusReady: string;
+  focusBreakLabel: string;
+  focusStartBreak: string;
+  focusBackToIdle: string;
+  focusCustomPlaceholder: string;
+  focusApply: string;
+  focusDone: string;
+  focusCompleted: string;
+  focusEnableNotifications: string;
+  focusSkipBreak: string;
 }
 
 export interface SearchFilters {
